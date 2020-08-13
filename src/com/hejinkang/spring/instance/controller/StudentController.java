@@ -1,6 +1,7 @@
 package com.hejinkang.spring.instance.controller;
 
-import com.jack.spring.annotion.CustomerComponent;
+
+import com.hejinkang.spring.annotion.CustomerComponent;
 
 /**
  * @author Jinkang He

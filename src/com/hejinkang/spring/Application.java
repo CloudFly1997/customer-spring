@@ -21,11 +21,5 @@ public class Application {
         System.out.println(teacher);
         ServiceImpl service = (ServiceImpl)factory.get("ServiceImpl");
         System.out.println(service);
-        /*String packageName = Application.class.getPackage().getName().replace(".", "/");
-        URL resource = Thread.currentThread().getContextClassLoader().getResource(packageName);
-        String root = resource.getPath();
-        System.out.println(packageName);
-        System.out.println(root);
-        System.out.println(root.substring(root.indexOf(packageName)));*/
     }
 }
