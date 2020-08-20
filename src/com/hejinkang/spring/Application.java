@@ -1,9 +1,11 @@
 package com.hejinkang.spring;
 
 
+import com.hejinkang.spring.instance.controller.StudentController;
 import com.hejinkang.spring.instance.service.Teacher;
 import com.hejinkang.spring.instance.service.impl.ServiceImpl;
 import com.hejinkang.spring.ioc.SpringApplication;
+import com.hejinkang.spring.ioc.singleton.Context;
 
 import java.util.Map;
 
@@ -16,10 +18,7 @@ import java.util.Map;
 
 public class Application {
     public static void main(String[] args) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
-        Map<String, Object> factory = SpringApplication.run(Application.class);
-        Teacher teacher = (Teacher) factory.get("Teacher");
-        System.out.println(teacher);
-        ServiceImpl service = (ServiceImpl)factory.get("ServiceImpl");
-        System.out.println(service);
+        SpringApplication.run(Application.class);
+        System.out.println(Context.getInstance().get("StudentController"));
     }
 }

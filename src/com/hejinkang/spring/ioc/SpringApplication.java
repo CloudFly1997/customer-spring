@@ -17,56 +17,27 @@ import java.util.Set;
  */
 
 public class SpringApplication {
-    public static final String CLASS_SUFFIX = ".class";
-    public static final String POINT = ".";
+
     private static String packageName;
     private static String packagePath;
+    private static String rootPath;
     private static Map<String, Class<?>> name_clazz_map = new HashMap<>();
 
-    public static Map<String, Object> run(Class<?> c) throws ClassNotFoundException, InstantiationException,
-            IllegalAccessException {
+    /**
+     * 通过启动类 获取包名，包的全路径相关信息
+     * @param c 传入启动类的Class信息
+     */
+    public static void run(Class<?> c) {
+        getPackageInfo(c);
+        new PackageScanner().componentScan(rootPath, packagePath);
+        new BeanFactory().class2Obj();
+    }
+
+    public static void getPackageInfo(Class c) {
         packageName = c.getPackage().getName();
         packagePath = packageName.replace(".", "/");
         URL resource = Thread.currentThread().getContextClassLoader().getResource(packagePath);
-        String root = resource.getPath();
-        scan(root);
-        return class2Obj();
-    }
-
-    public static void scan(String root) throws ClassNotFoundException {
-        File[] files = new File(root).listFiles();
-        for (int i = 0; i < files.length; i++) {
-            if (files[i].isDirectory()) {
-                scan(files[i].getPath());
-            }
-            if (files[i].getName().endsWith(CLASS_SUFFIX)) {
-                String fullPath = files[i].getPath().replace("\\", "/");
-                String classFullName = fullPath.substring(fullPath.indexOf(packagePath)).replace(CLASS_SUFFIX, "").replace(
-                        "/", ".");
-
-                String className = classFullName.substring(classFullName.lastIndexOf(".") + 1);
-                Class<?> cls = Class.forName(classFullName);
-                name_clazz_map.put(className, cls);
-            }
-        }
-    }
-
-    public static Map<String, Object> class2Obj() throws IllegalAccessException,
-            InstantiationException {
-        Map<String, Object> objectMap = new HashMap<>();
-        Set set = name_clazz_map.keySet();
-        Iterator iterator = set.iterator();
-        while (iterator.hasNext()) {
-            String clsName = (String) iterator.next();
-            Class<?> cls = name_clazz_map.get(clsName);
-            CustomerComponent annotation = cls.getAnnotation(CustomerComponent.class);
-            if (annotation != null) {
-                System.out.println(annotation.value());
-                Object o = cls.newInstance();
-                objectMap.put(clsName, o);
-            }
-        }
-        return objectMap;
+        rootPath = resource.getPath();
     }
 
 

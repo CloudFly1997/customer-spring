@@ -1,7 +1,9 @@
 package com.hejinkang.spring.instance.controller;
 
 
+import com.hejinkang.spring.annotion.CustomerAutowire;
 import com.hejinkang.spring.annotion.CustomerComponent;
+import com.hejinkang.spring.instance.service.Teacher;
 
 /**
  * @author Jinkang He
@@ -11,4 +13,11 @@ import com.hejinkang.spring.annotion.CustomerComponent;
 
 @CustomerComponent("controller")
 public class StudentController {
+    @CustomerAutowire
+    private Teacher teacher;
+
+    @Override
+    public String toString() {
+        return "hello student";
+    }
 }
