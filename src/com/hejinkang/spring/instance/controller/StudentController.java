@@ -16,8 +16,14 @@ public class StudentController {
     @CustomerAutowire
     private Teacher teacher;
 
+    public String string;
+
+    public void test() {
+        teacher.print();;
+    }
+
     @Override
     public String toString() {
-        return "hello student";
+        return teacher.toString();
     }
 }
