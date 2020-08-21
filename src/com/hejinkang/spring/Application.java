@@ -17,8 +17,9 @@ import java.util.Map;
  */
 
 public class Application {
-    public static void main(String[] args) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
+    public static void main(String[] args) {
         SpringApplication.run(Application.class);
-        System.out.println(Context.getInstance().get("StudentController"));
+        StudentController studentController = (StudentController)Context.getInstance().get("studentController");
+        studentController.test();
     }
 }

@@ -3,6 +3,7 @@ package com.hejinkang.spring.ioc;
 import com.hejinkang.spring.common.Constant;
 import com.hejinkang.spring.bean.BeanConfig;
 import com.hejinkang.spring.ioc.singleton.BeanConfigContainer;
+import com.hejinkang.spring.util.NameUtil;
 
 import java.io.File;
 
@@ -24,9 +25,11 @@ public class PackageScanner {
             }
             if (files[i].getName().endsWith(Constant.CLASS_SUFFIX)) {
                 String fullPath = files[i].getPath().replace("\\", "/");
+                //获取类的全路径
                 String classFullName =
                         fullPath.substring(fullPath.indexOf(packagePath)).replace(Constant.CLASS_SUFFIX, "").replace(
                         "/", ".");
+                //去掉最后一个点
                 String className = classFullName.substring(classFullName.lastIndexOf(Constant.POINT) + 1);
                 Class<?> cls = null;
                 try {
@@ -35,9 +38,10 @@ public class PackageScanner {
                     e.printStackTrace();
                 }
                 BeanConfig beanConfig = new BeanConfig();
-                beanConfig.setClsName(className);
+                String classKey = NameUtil.objectNameFirstLetterToLowerCase(className);
+                beanConfig.setClsName(classKey);
                 beanConfig.setCls(cls);
-                beanConfigContainer.put(className, beanConfig);
+                beanConfigContainer.put(classKey, beanConfig);
             }
         }
     }

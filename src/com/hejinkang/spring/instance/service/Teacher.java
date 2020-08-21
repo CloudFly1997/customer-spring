@@ -1,7 +1,9 @@
 package com.hejinkang.spring.instance.service;
 
 
+import com.hejinkang.spring.annotion.CustomerAutowire;
 import com.hejinkang.spring.annotion.CustomerComponent;
+import com.hejinkang.spring.instance.service.impl.ServiceImpl;
 
 /**
  * @author Jinkang He
@@ -11,12 +13,13 @@ import com.hejinkang.spring.annotion.CustomerComponent;
 
 @CustomerComponent("teacher")
 public class Teacher {
-    private String name;
 
-    @Override
-    public String toString() {
-        return "Teacher{" +
-                "name='" + name + '\'' +
-                '}';
+    @CustomerAutowire
+    private ServiceImpl service;
+
+    public void print() {
+        System.out.println("i am a teacher");
+        System.out.println(service.toString());
     }
+
 }
